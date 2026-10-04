@@ -863,3 +863,11 @@ img { max-width: 100%; display: block; }
 .responsible-for h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); text-align: center; margin: 0 0 0.7em; }
 .responsible-for ul { margin: 0; padding-left: 1.2em; text-align: left; }
 .responsible-for li { font-size: 0.98rem; margin-bottom: 0.45em; }
+
+/* About Me: no bar background, wider body text */
+.home-metrics { max-width: 1100px; background: none; }
+.home-metrics-header { background: none; clip-path: none; width: auto; margin: 0; padding: 14px 0 6px; }
+.home-metrics-header::before, .home-metrics-header::after { display: none; }
+.home-metrics-label { color: #111111; }
+.home-metrics-label::before, .home-metrics-label::after { background: #8a8a8a; }
+.home-about-bio { max-width: 1000px; font-size: 0.9rem; color: #2a2a2a; }
