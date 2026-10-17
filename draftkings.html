@@ -175,25 +175,32 @@
     </div>
 
     <div class="case-study" id="chomped">
-      <div class="case-eyebrow">3D / In Development</div>
+      <div class="case-eyebrow">Technical Design / 3D</div>
       <h2>Chomped</h2>
-      <div class="design-challenge"><h4>Design Challenge</h4><p>How do you keep a live game feeling responsive when every round depends on a server response that arrives after the player acts?</p></div>
+      <div class="design-challenge"><h4>Design Challenge</h4><p>Chomped runs on a live, server-driven backend, so player actions, animation, FX, and the server-confirmed outcome don't always land at the same moment. The challenge was keeping the experience feeling responsive and cohesive within that gap.</p></div>
     <div class="responsible-for">
       <h4>My Contribution</h4>
       <ul>
-      <li>Designed the latency-masking system: an unconditional shark dive, a server-driven resurface, and a graceful-close fallback for dropped connections</li>
+      <li>Led animation sequencing and FX timing across player actions, visual feedback, and server-confirmed outcomes</li>
+      <li>Designed the cash-out dive so immediate visual feedback plays before the server round-trip resolves the result</li>
       <li>Led win/loss lane highlighting and chomp vs. escape animation choreography</li>
       <li>Wrote the water shader and exposed its scripted parameters, tuning the look with the art lead</li>
       <li>Built a mobile sub-menu system for secondary options and solved UIToolkit implementation for stylized concept text</li>
+      <li>Implemented and set up all buttons, UI labels, and UI state changes</li>
       </ul>
     </div>
+      <div class="case-text">
+        <p>Chomped is a new game similar to our most popular title, Rocket: players bet on up to 5 fish being chased by sharks, with the stake multiplying the longer they stay in. Wait too long to cash out and the fish gets Chomped, losing both winnings and stake. It's a translation of the Rocket mechanic into 3D, one of only a few fully 3D games in our portfolio, and another heavy cross-functional effort between art, design, and engineering to sequence the experience and find the pain points.</p>
+        <p>Mobile UI was one of the bigger challenges. There's a lot happening on screen at once, so we built a sub-menu system to move less-frequently-used options (like auto play settings) out of the primary view, then iterated on sizing for usability and tested it. We also hit implementation friction trying to replicate our artists' stylized concept text using UIToolkit, which needed some custom technical solutions to stay accurate to the original concepts.</p>
+        <p>As with Dig!, we adjusted animation sequencing and the &ldquo;chomped&rdquo; event choreography so outcomes read clearly as a win or a loss. I personally led that effort, adding lane highlighting for wins versus losses and directing distinct animations for a chomp versus an escape. Because the outcome comes from the server, a lot of that work was figuring out which parts of the animation could start on the player's action and which parts had to wait on a confirmed result.</p>
+      </div>
       <div class="tech-highlight">
-        <h4>Technical Design Highlight</h4>
-        <p class="tech-title">Designing Around Network Latency</p>
+        <h4>Animation Sequencing</h4>
+        <p class="tech-title">Example: The Cash-Out Dive</p>
         <div class="flow">
           <div class="flow-step">Player cashes out</div>
           <div class="flow-arrow">&darr;</div>
-          <div class="flow-step">Shark dive begins immediately</div>
+          <div class="flow-step">Shark dives, fish submerges with splash FX</div>
           <div class="flow-arrow">&darr;</div>
           <div class="flow-step">Server response arrives</div>
           <div class="flow-split">
@@ -201,18 +208,17 @@
             <div class="flow-branch"><div class="flow-step">Loss</div><p>The shark resurfaces to play the chomp.</p></div>
           </div>
         </div>
-        <p>The animation is decoupled from the server round-trip, so the player never sees a loading state.</p>
+        <p>The dive plays the moment the player cashes out: the fish goes under with a water splash FX as the shark dives, and the server-confirmed result decides afterward whether the shark resurfaces for the chomp.</p>
       </div>
       <div class="case-text">
-        <p>Chomped is a new game similar to our most popular title, Rocket: players bet on up to 5 fish being chased by sharks, with the stake multiplying the longer they stay in. Wait too long to cash out and the fish gets Chomped, losing both winnings and stake. It's a translation of the Rocket mechanic into 3D, one of only a few fully 3D games in our portfolio, and another heavy cross-functional effort between art, design, and engineering to sequence the experience and find the pain points.</p>
-        <p>Mobile UI was one of the bigger challenges. There's a lot happening on screen at once, so we built a sub-menu system to move less-frequently-used options (like auto play settings) out of the primary view, then iterated on sizing for usability and tested it. We also hit implementation friction trying to replicate our artists' stylized concept text using UIToolkit, which needed some custom technical solutions to stay accurate to the original concepts.</p>
-        <p>As with Dig!, we adjusted animation sequencing and the &ldquo;chomped&rdquo; event choreography so outcomes read clearly as a win or a loss. I personally led that effort, adding lane highlighting for wins versus losses and directing distinct animations for a chomp versus an escape.</p>
-        <p>Because this is a live game, we also had to design around network latency. The shark always dives and disappears the instant a player hits cash out, regardless of what the server ends up returning. That part is unconditional, so there's no window where the animation has to "wait" on the network. It only resurfaces if the server's response is a loss, to play the chomp event; on a win, it simply never comes back. That decouples the dive from the round-trip entirely and masks latency inside an in-theme animation state rather than a loading spinner. If the connection drops outright rather than just lagging, the game falls back to our standard graceful-close procedure: the player sees a lost-connection message, and if the round was left in a broken state, they can still view the outcome afterward in their round history.</p>
-        <p>I also wrote the game's water shader myself, exposing it as a set of scripted parameters, and worked with our art lead to decide which variables to add, remove, or expose to fine-tune the look.</p>
+        <p>If the connection drops outright rather than just lagging, the game falls back to our standard graceful-close procedure: the player sees a lost-connection message, and if the round was left in a broken state, they can still view the outcome afterward in their round history.</p>
       </div>
       <div class="tech-highlight">
         <h4>Technical Implementation</h4>
-        <p><strong>Water Shader.</strong> Wrote and parameterized the game&rsquo;s water shader in collaboration with the art lead, exposing controls that allowed the team to tune the visual effect without requiring an engineering change for every visual adjustment.</p>
+        <p><strong>Water Shader.</strong> Wrote and parameterized the game&rsquo;s water shader in collaboration with the art lead, exposing tunable controls, including depth, murkiness, and shoreline foam among others, so the art team could tune and refine it without editing code.</p>
+      </div>
+      <div class="case-text">
+        <p>Working through Chomped reinforced how much animation sequencing and FX timing shape whether a live, server-driven game feels responsive, not just how it looks.</p>
       </div>
       <div class="case-media grid">
         <a href="assets/chomped-bet-screen.jpg" target="_blank" rel="noopener"><img src="assets/chomped-bet-screen.jpg" alt="Chomped bet screen" loading="lazy"></a>
@@ -274,12 +280,12 @@
       </a>
       <a class="highlight-banner" href="#chomped" data-scroll="chomped">
         <img src="assets/chomped-live-round.jpg" alt="Chomped shark dive and water shader" loading="lazy">
-        <span class="highlight-banner-label">Latency-Masked Shark Dive &amp; Water Shader</span>
+        <span class="highlight-banner-label">Responsive Live Game Systems</span>
         <span class="highlight-banner-cta">Chomped &rarr;</span>
       </a>
       <a class="highlight-banner" href="#dig" data-scroll="dig">
-        <img src="assets/aa555b_90963e998e4841ae8ae1312cd1a7a11e.jpg" alt="Dig! revised opening sequence" loading="lazy">
-        <span class="highlight-banner-label">Opening Sequence Animatic</span>
+        <img src="assets/aa555b_90963e998e4841ae8ae1312cd1a7a11e.jpg" alt="Dig! revised opening sequence" loading="lazy" style="object-position: center 43%;">
+        <span class="highlight-banner-label">Player Motivation</span>
         <span class="highlight-banner-cta">Dig! &rarr;</span>
       </a>
     </div>
