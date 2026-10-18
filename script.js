@@ -42,4 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
       overlay.classList.add('open');
     }
   });
+
+  // Back-to-top button
+  var backToTop = document.getElementById('back-to-top');
+  if (backToTop) {
+    var toggleVisible = function () {
+      backToTop.classList.toggle('visible', window.scrollY > 400);
+    };
+    toggleVisible();
+    window.addEventListener('scroll', toggleVisible, { passive: true });
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 });
